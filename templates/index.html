@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8"/>
+  <title>Simulador de Crédito ML</title>
+  <link rel="stylesheet" href="/static/style.css"/>
+  <!-- Chart.js para gráficas dinámicas -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+  <div class="card">
+    <h1>Simulador de Riesgo de Crédito (ML + Banxico)</h1>
+    <p>Ingresa datos del solicitante, elige tipo de crédito y ajusta variables macro.</p>
+
+    <div class="grid">
+
+      <label>Tipo de crédito</label>
+      <select id="credit_type">
+        <option value="personal">Crédito personal</option>
+        <option value="automotriz">Crédito automotriz</option>
+        <option value="hipotecario">Crédito hipotecario</option>
+        <option value="nomina">Crédito nómina</option>
+        <option value="pyme">Crédito PyME / empresarial</option>
+      </select>
+
+      <label>Ingreso mensual</label>
+      <input id="income_monthly" type="number" step="0.01"/>
+
+      <label>Payment burden (pago anual / ingreso anual)</label>
+      <input id="payment_burden" type="number" step="0.001"/>
+
+      <label>Monto crédito / ingreso anual</label>
+      <input id="credit_income_ratio" type="number" step="0.001"/>
+
+      <label>Antigüedad laboral (días)</label>
+      <input id="DAYS_EMPLOYED" type="number"/>
+
+      <label>Edad (días negativos Home Credit)</label>
+      <input id="DAYS_BIRTH" type="number"/>
+
+      <label>EXT_SOURCE_1</label>
+      <input id="EXT_SOURCE_1" type="number" step="0.001"/>
+
+      <label>EXT_SOURCE_2</label>
+      <input id="EXT_SOURCE_2" type="number" step="0.001"/>
+
+      <label>EXT_SOURCE_3</label>
+      <input id="EXT_SOURCE_3" type="number" step="0.001"/>
+
+      <label>Miembros familia</label>
+      <input id="CNT_FAM_MEMBERS" type="number"/>
+
+      <hr/>
+
+      <label>Tasa Banxico (%)</label>
+      <input id="tasa_objetivo" type="number" step="0.01" value="10.00"/>
+
+      <label>Inflación anual INPC (%)</label>
+      <input id="inflacion_anual" type="number" step="0.01" value="4.00"/>
+    </div>
+
+    <button onclick="sendPredict()">Simular crédito</button>
+
+    <div id="result" class="result"></div>
+
+    <hr style="margin:20px 0;">
+    <h2>Gráfica dinámica: PD vs Tasa Banxico</h2>
+    <p style="margin-top:-6px;color:#555;">
+      Se recalcula automáticamente con los datos del cliente.
+    </p>
+
+    <canvas id="pdRateChart" height="120"></canvas>
+
+    <hr style="margin:20px 0;">
+    <h2>Gráficas del modelo (globales)</h2>
+
+    <div class="charts">
+      <div>
+        <h3>ROC Curve</h3>
+        <img src="/static/roc_curve.png" class="chart-img">
+      </div>
+
+      <div>
+        <h3>Importancia de Variables</h3>
+        <img src="/static/feature_importance.png" class="chart-img">
+      </div>
+
+      <div>
+        <h3>KS Curve</h3>
+        <img src="/static/ks_curve.png" class="chart-img">
+      </div>
+    </div>
+
+  </div>
+
+  <script src="/static/app.js"></script>
+</body>
+</html>
